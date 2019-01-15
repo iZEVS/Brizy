@@ -373,11 +373,13 @@ class Brizy_Editor_API {
 				$this->post->set_editor_version( BRIZY_EDITOR_VERSION );
 			}
 
-			if ( $this->param( 'compile' ) ) {
+			if ( (int)$this->param( 'is_autosave' ) ) {
+				$this->post->auto_save_post();
+			} else {
 				$this->post->compile_page();
+				$this->post->save();
+				$this->post->save_wp_post();
 			}
-
-			$this->post->save();
 
 			$this->success( self::create_post_arr( $this->post ) );
 		} catch ( Exception $exception ) {
@@ -389,28 +391,12 @@ class Brizy_Editor_API {
 	public function save_trigger() {
 		try {
 			$this->authorize();
-			//$post_id = $this->param( 'post' );
-			//$post    = Brizy_Editor_Post::get( $post_id );
 
 			if ( ! $this->post->uses_editor() ) {
 				return;
 			}
-			$post_type        = $this->post->get_wp_post()->post_type;
-			$post_type_object = get_post_type_object( $post_type );
-			$can_publish      = current_user_can( $post_type_object->cap->publish_posts );
-			$post_status      = $can_publish ? 'publish' : 'pending';
 
-			// compilation needs to go here
-			//$post->compile_page();
-			$this->post->save();
-
-			$brizy_compiled_page = $this->post->get_compiled_page();
-
-			wp_update_post( array(
-				'ID'           => $this->post->get_parent_id(),
-				'post_status'  => $post_status,
-				'post_content' => $brizy_compiled_page->get_body()
-			) );
+			$this->post->save_wp_post();
 
 			// get latest version of post
 			$post                 = Brizy_Editor_Post::get( $this->post->get_parent_id() );
@@ -424,7 +410,6 @@ class Brizy_Editor_API {
 			exit;
 		}
 	}
-
 
 	public function sidebar_content() {
 		try {
@@ -828,6 +813,8 @@ class Brizy_Editor_API {
 
 	public function get_media_key() {
 		try {
+			session_write_close();
+
 			$apost         = (int) $_REQUEST['post_id'];
 			$attachment_id = (int) $_REQUEST['attachment_id'];
 

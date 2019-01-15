@@ -214,6 +214,15 @@ class Brizy_Editor_Editor_Editor {
 					'createIntegration' => Brizy_Editor_Forms_Api::AJAX_CREATE_INTEGRATION,
 					'updateIntegration' => Brizy_Editor_Forms_Api::AJAX_UPDATE_INTEGRATION,
 					'deleteIntegration' => Brizy_Editor_Forms_Api::AJAX_DELETE_INTEGRATION,
+
+					'getGlobalBlockList' => Brizy_Admin_Blocks_Api::CREATE_GET_GLOBAL_BLOCKS_ACTION,
+					'getSavedBlockList'  => Brizy_Admin_Blocks_Api::CREATE_GET_SAVED_BLOCKS_ACTION,
+					'createGlobalBlock'  => Brizy_Admin_Blocks_Api::CREATE_GLOBAL_BLOCK_ACTION,
+					'createSavedBlock'   => Brizy_Admin_Blocks_Api::CREATE_SAVED_BLOCK_ACTION,
+					'updateGlobalBlock'  => Brizy_Admin_Blocks_Api::UPDATE_GLOBAL_BLOCK_ACTION,
+					'updateSavedBlock'  => Brizy_Admin_Blocks_Api::UPDATE_SAVED_BLOCK_ACTION,
+					'deleteGlobalBlock'  => Brizy_Admin_Blocks_Api::DELETE_GLOBAL_BLOCK_ACTION,
+					'deleteSavedBlock'   => Brizy_Admin_Blocks_Api::DELETE_SAVED_BLOCK_ACTION,
 				),
 				'plugins'         => array(
 					'dummy'       => true,
@@ -467,6 +476,12 @@ class Brizy_Editor_Editor_Editor {
 		return $menu_data;
 	}
 
+	/**
+	 * @param $items
+	 * @param int $parent
+	 *
+	 * @return array
+	 */
 	private function get_menu_tree( $items, $parent = 0 ) {
 		$result_items = array();
 

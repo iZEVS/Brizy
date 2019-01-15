@@ -63,7 +63,7 @@ class Brizy_Admin_Main {
 		add_filter( 'plugin_action_links_' . BRIZY_PLUGIN_BASE, array( $this, 'plugin_action_links' ) );
 		add_filter( 'display_post_states', array( $this, 'display_post_states' ), 10, 2 );
 
-		add_filter( 'save_post', array( $this, 'save_post' ), 10, 2 );
+		//add_filter( 'save_post', array( $this, 'save_post' ), 10, 2 );
 
 		add_filter( 'wp_import_existing_post', array( $this, 'handleNewProjectPostImport' ), 10, 2 );
 		add_filter( 'wp_import_post_meta', array( $this, 'handleNewProjectMetaImport' ), 10, 3 );
@@ -151,27 +151,27 @@ class Brizy_Admin_Main {
 		return $post_states;
 	}
 
-	public function save_post( $post_id, $post ) {
-		try {
-
-			$brizy_post = null;
-
-			$parent_id = wp_is_post_revision( $post_id );
-
-			if ( $parent_id ) {
-				$brizy_post = Brizy_Editor_Post::get( $parent_id );
-
-				if ( $brizy_post->uses_editor() ) {
-					$brizy_post->save( $post_id );
-				}
-			}
-
-		} catch ( Exception $e ) {
-			Brizy_Logger::instance()->exception( $e );
-
-			return;
-		}
-	}
+//	public function save_post( $post_id, $post ) {
+//		try {
+//
+//			$brizy_post = null;
+//
+//			$parent_id = wp_is_post_revision( $post_id );
+//
+//			if ( $parent_id ) {
+//				$brizy_post = Brizy_Editor_Post::get( $parent_id );
+//
+//				if ( $brizy_post->uses_editor() ) {
+//					$brizy_post->save( $post_id );
+//				}
+//			}
+//
+//		} catch ( Exception $e ) {
+//			Brizy_Logger::instance()->exception( $e );
+//
+//			return;
+//		}
+//	}
 
 
 	/**
