@@ -169,7 +169,11 @@ class Brizy_Editor_Project implements Serializable {
 	 * @throws Brizy_Editor_Exceptions_NotFound
 	 */
 	public function getGlobals() {
-		return json_decode( base64_decode( $this->getMetaValue( 'globals' ) ) );
+		$globals =  json_decode( base64_decode( $this->getMetaValue( 'globals' ) ) );
+
+		$globals = apply_filters('brizy_global_data', $globals);
+
+		return $globals;
 	}
 
 	/**
