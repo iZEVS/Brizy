@@ -60,24 +60,26 @@ class Brizy_Admin_Blocks_Main {
 			'post_type'      => Brizy_Admin_Blocks_Main::CP_GLOBAL,
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
-
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
 		) );
 
 
 		foreach ( $blocks as $block ) {
-			$brizy_editor_block = Brizy_Editor_Block::get( $block );
-			$globalData->project->globalBlocks[$brizy_editor_block->get_uid()] = json_decode( $brizy_editor_block->get_editor_data() );
+			$brizy_editor_block                                                  = Brizy_Editor_Block::get( $block );
+			$globalData->project->globalBlocks[ $brizy_editor_block->get_uid() ] = json_decode( $brizy_editor_block->get_editor_data() );
 		}
 
 		$blocks = get_posts( array(
 			'post_type'      => Brizy_Admin_Blocks_Main::CP_SAVED,
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
-
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
 		) );
 
 		foreach ( $blocks as $block ) {
-			$brizy_editor_block = Brizy_Editor_Block::get( $block );
+			$brizy_editor_block                 = Brizy_Editor_Block::get( $block );
 			$globalData->project->savedBlocks[] = json_decode( $brizy_editor_block->get_editor_data() );
 		}
 
