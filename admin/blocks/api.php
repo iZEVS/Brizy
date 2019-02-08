@@ -151,7 +151,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 
 			$block->set_editor_data( stripslashes( $this->param( 'data' ) ) );
 
-			if ( (int)$this->param( 'is_autosave' ) ) {
+			if ( (int) $this->param( 'is_autosave' ) ) {
 				$block->auto_save_post();
 			} else {
 				$block->save();
@@ -180,7 +180,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 
 			$block->set_editor_data( stripslashes( $this->param( 'data' ) ) );
 
-			if ( (int)$this->param( 'autosave' ) ) {
+			if ( (int) $this->param( 'autosave' ) ) {
 				$block->auto_save_post();
 			} else {
 				$block->save();
@@ -229,7 +229,13 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 	 */
 	private function getBlocksByType( $type, $arags = array() ) {
 
-		$filterArgs = array( 'post_type' => $type, 'posts_per_page' => 1000000, 'post_status' => 'any' );
+		$filterArgs = array(
+			'post_type'      => $type,
+			'posts_per_page' => - 1,
+			'post_status'    => 'any',
+			'orderby'        => 'ID',
+			'order'          => 'ASC',
+		);
 		$filterArgs = array_merge( $filterArgs, $arags );
 
 		$wpBlocks = get_posts( $filterArgs );
