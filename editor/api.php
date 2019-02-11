@@ -334,10 +334,11 @@ class Brizy_Editor_API {
 				$this->project->save();
 				$this->project->save_wp_post();
 
-				// mark all brizy post to be compiled on next view
 				Brizy_Editor_Post::clear_compiled_cache();
 
-			// return the project data
+			}
+
+
 			$this->success( $this->create_post_globals() );
 		} catch ( Exception $exception ) {
 			Brizy_Logger::instance()->exception( $exception );
@@ -390,7 +391,7 @@ class Brizy_Editor_API {
 			$this->success( self::create_post_arr( $this->post ) );
 		} catch ( Exception $exception ) {
 			Brizy_Logger::instance()->exception( $exception );
-			$this->error( $exception->getCode(), $exception->getMessage() );
+			$this->error( 500, $exception->getMessage() );
 		}
 	}
 
@@ -858,5 +859,25 @@ class Brizy_Editor_API {
 		}
 
 		return $uid;
+	}
+
+	/**
+	 * @param $status
+	 *
+	 * @throws Brizy_Editor_Exceptions_NotFound
+	 * @throws Brizy_Editor_Exceptions_UnsupportedPostType
+	 */
+	private function setNeedsCompileForAllBrizyPosts($status) {
+		// mark all brizy post to be compiled on next view
+		$posts = Brizy_Editor_Post::get_all_brizy_posts();
+
+		// we need to trigger a post update action to make sure the cache plugins will update clear the cache
+		remove_action( 'save_post', array( Brizy_Admin_Main::instance(), 'compile_post_action' ) );
+		// mark all post to be compiled on next view
+		foreach ( $posts as $bpost ) {
+			$bpost->set_needs_compile( $status );
+			$bpost->save();
+			// wp_update_post( array( 'ID' => $bpost->get_id() ) );
+		}
 	}
 }
