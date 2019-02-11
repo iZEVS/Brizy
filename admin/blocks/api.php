@@ -88,13 +88,9 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 			$this->error( 400, 'Invalid data' );
 		}
 
-		if ( ! $this->param( 'status' ) ) {
-			$this->error( 400, 'Invalid block status' );
-		}
-
 		try {
 			$data  = stripslashes( $this->param( 'data' ) );
-			$block = $this->createBlock( $this->param( 'uid' ), $this->param( 'status' ), Brizy_Admin_Blocks_Main::CP_GLOBAL );
+			$block = $this->createBlock( $this->param( 'uid' ), 'publish', Brizy_Admin_Blocks_Main::CP_GLOBAL );
 			$block->set_editor_data( $data );
 			$block->set_needs_compile( true );
 			$block->save();
@@ -116,13 +112,9 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 			$this->error( 400, 'Invalid data' );
 		}
 
-		if ( ! $this->param( 'status' ) ) {
-			$this->error( 400, 'Invalid block status' );
-		}
-
 		try {
 			$data  = stripslashes( $this->param( 'data' ) );
-			$block = $this->createBlock( $this->param( 'uid' ), $this->param( 'status' ), Brizy_Admin_Blocks_Main::CP_SAVED );
+			$block = $this->createBlock( $this->param( 'uid' ), 'publish', Brizy_Admin_Blocks_Main::CP_SAVED );
 			$block->set_editor_data( $data );
 			$block->set_needs_compile( true );
 			$block->save();

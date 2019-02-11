@@ -200,7 +200,7 @@ class Brizy_Editor_API_Client extends Brizy_Editor_Http_Client {
 					'is_index' => true
 				)
 			) ), // ???
-			'globals_json'     => json_encode( apply_filters( 'brizy_global_data', $project->getGlobals() ) ),
+			'globals_json'     => json_encode( apply_filters( 'brizy_global_data', $project->getDecodedGlobals() ) ),
 			'page_id'          => 1
 		) );
 

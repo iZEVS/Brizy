@@ -24,7 +24,7 @@ class Brizy_Admin_Migrations_GlobalBlocksToCustomPostMigration implements Brizy_
 	public function execute() {
 
 		$project = Brizy_Editor_Project::get();
-		$globals = $project->getGlobals();
+		$globals = $project->getDecodedGlobals();
 
 		if ( $globals->project->globalBlocks ) {
 			foreach ( get_object_vars( $globals->project->globalBlocks ) as $uid => $data ) {

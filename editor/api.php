@@ -328,8 +328,14 @@ class Brizy_Editor_API {
 			//$post_id = (int) $this->param( 'post' );
 			$project->setGlobalsAsJson( $data );
 
-			// mark all brizy post to be compiled on next view
-			Brizy_Editor_Post::clear_compiled_cache();
+			if ( (int) $this->param( 'is_autosave' ) ) {
+				$this->project->auto_save_post();
+			} else {
+				$this->project->save();
+				$this->project->save_wp_post();
+
+				// mark all brizy post to be compiled on next view
+				Brizy_Editor_Post::clear_compiled_cache();
 
 			// return the project data
 			$this->success( $this->create_post_globals() );
@@ -373,7 +379,7 @@ class Brizy_Editor_API {
 				$this->post->set_editor_version( BRIZY_EDITOR_VERSION );
 			}
 
-			if ( (int)$this->param( 'is_autosave' ) ) {
+			if ( (int) $this->param( 'is_autosave' ) ) {
 				$this->post->auto_save_post();
 			} else {
 				$this->post->compile_page();
@@ -585,7 +591,7 @@ class Brizy_Editor_API {
 		$project = Brizy_Editor_Project::get();
 		$globals = array(
 			'id'        => $project->getId(),
-			'gb'        => $project->getGlobals(),
+			'gb'        => $project->getDecodedGlobals(),
 			'name'      => $wp_post->post_name,
 			'createdAt' => $wp_post->post_date,
 			'updatedAt' => $wp_post->post_date,

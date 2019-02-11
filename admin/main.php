@@ -487,7 +487,7 @@ class Brizy_Admin_Main {
 		if ( $post['post_type'] == Brizy_Editor_Project::BRIZY_PROJECT ) {
 
 			$currentProject        = Brizy_Editor_Project::get();
-			$currentProjectGlobals = $currentProject->getGlobals();
+			$currentProjectGlobals = $currentProject->getDecodedGlobals();
 			$currentProjectPostId  = $currentProject->getWpPost()->ID;
 			$currentProjectStorage = Brizy_Editor_Storage_Project::instance( $currentProjectPostId );
 
