@@ -352,7 +352,7 @@ class Brizy_Public_Main {
 
 		global $post;
 
-		if ( false === strpos( $content, 'brz-root__container' ) || ( $post && $post->ID !== $this->post->get_id() ) ) {
+		if ( false === strpos( $content, 'brz-root__container' ) || ( $post && $post->ID !== $this->post->get_parent_id() ) ) {
 			return $content;
 		}
 
@@ -395,10 +395,10 @@ class Brizy_Public_Main {
 		if ( $is_preview ) {
 			$user_id      = get_current_user_id();
 			$postParentId = $this->post->get_parent_id();
-			$autosave = wp_get_post_autosave( $postParentId, $user_id );
+			$autosaveId = Brizy_Editor_Post::getAutoSavePost( $postParentId, $user_id );
 
-			if ( $autosave ) {
-				$this->post    = Brizy_Editor_Post::get( $autosave );
+			if ( $autosaveId ) {
+				$this->post    = Brizy_Editor_Post::get( $autosaveId );
 				$needs_compile = ! $this->post->isCompiledWithCurrentVersion() || $this->post->get_needs_compile();
 			}
 		}
