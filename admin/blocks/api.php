@@ -94,6 +94,9 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 			$block->set_editor_data( $data );
 			$block->set_needs_compile( true );
 			$block->save();
+
+			do_action('brizy_global_data_updated');
+
 			$this->success( $block );
 
 		} catch ( Exception $exception ) {
@@ -118,6 +121,8 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 			$block->set_editor_data( $data );
 			$block->set_needs_compile( true );
 			$block->save();
+
+			do_action('brizy_global_data_updated');
 
 			$this->success( $block );
 
@@ -147,6 +152,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 				$block->auto_save_post();
 			} else {
 				$block->save();
+				do_action('brizy_global_data_updated');
 			}
 
 			$this->success( $block->convertToOptionValue() );
@@ -176,6 +182,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 				$block->auto_save_post();
 			} else {
 				$block->save();
+				do_action('brizy_global_data_updated');
 			}
 
 			$this->success( $block->convertToOptionValue() );
@@ -192,6 +199,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		}
 
 		if ( $this->deleteBlock( $this->param( 'uid' ), Brizy_Admin_Blocks_Main::CP_GLOBAL ) ) {
+			do_action('brizy_global_data_updated');
 			$this->success( null );
 		}
 
@@ -206,6 +214,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		}
 
 		if ( $this->deleteBlock( $this->param( 'uid' ), Brizy_Admin_Blocks_Main::CP_SAVED ) ) {
+			do_action('brizy_global_data_updated');
 			$this->success( null );
 		}
 

@@ -60,6 +60,7 @@ class Brizy_Admin_Main {
 		add_filter( 'admin_body_class', array( $this, 'filter_add_body_class' ), 10, 2 );
 
 		add_action( 'admin_head', array( $this, 'hide_editor' ) );
+		add_action( 'brizy_global_data_updated', array( $this, 'global_data_updated' ) );
 		add_filter( 'plugin_action_links_' . BRIZY_PLUGIN_BASE, array( $this, 'plugin_action_links' ) );
 		add_filter( 'display_post_states', array( $this, 'display_post_states' ), 10, 2 );
 
@@ -567,5 +568,19 @@ class Brizy_Admin_Main {
 		}
 
 		return $postMeta;
+	}
+
+	public function global_data_updated() {
+		// mark all brizy post to be compiled on next view
+		$posts = Brizy_Editor_Post::get_all_brizy_posts();
+
+		// we need to trigger a post update action to make sure the cache plugins will update clear the cache
+		remove_action( 'save_post', array( Brizy_Admin_Main::instance(), 'compile_post_action' ) );
+		// mark all post to be compiled on next view
+		foreach ( $posts as $bpost ) {
+			$bpost->set_needs_compile( true );
+			$bpost->save();
+			// wp_update_post( array( 'ID' => $bpost->get_id() ) );
+		}
 	}
 }
