@@ -231,23 +231,23 @@ class Brizy_Editor_Project implements Serializable {
 	protected function loadProjectData() {
 		$data = $this->storage->get_storage();
 
-		$this->id            = $data['id'];
-		$this->title         = $data['title'];
-		$this->globals       = $data['globals'];
-		$this->name          = $data['name'];
-		$this->user          = $data['user'];
-		$this->template      = $data['template'];
-		$this->created       = $data['created'];
-		$this->updated       = $data['updated'];
-		$this->languages     = $data['languages'];
-		$this->pluginVersion = $data['pluginVersion'];
-		$this->editorVersion = $data['editorVersion'];
-		$this->signature     = $data['signature'];
-		$this->accounts      = $data['accounts'];
-		$this->forms         = $data['forms'];
-		$this->license_key   = $data['brizy-license-key'];
-		$this->cloud_token   = $data['brizy-cloud-token'];
-		$this->cloud_project = $data['brizy-cloud-project'];
+		$this->id            = isset( $data['id'] ) ? $data['id'] : null;
+		$this->title         = isset( $data['title'] ) ? $data['title'] : null;
+		$this->globals       = isset( $data['globals'] ) ? $data['globals'] : null;
+		$this->name          = isset( $data['name'] ) ? $data['name'] : null;
+		$this->user          = isset( $data['user'] ) ? $data['user'] : null;
+		$this->template      = isset( $data['template'] ) ? $data['template'] : null;
+		$this->created       = isset( $data['created'] ) ? $data['created'] : null;
+		$this->updated       = isset( $data['updated'] ) ? $data['updated'] : null;
+		$this->languages     = isset( $data['languages'] ) ? $data['languages'] : null;
+		$this->pluginVersion = isset( $data['pluginVersion'] ) ? $data['pluginVersion'] : null;
+		$this->editorVersion = isset( $data['editorVersion'] ) ? $data['editorVersion'] : null;
+		$this->signature     = isset( $data['signature'] ) ? $data['signature'] : null;
+		$this->accounts      = isset( $data['accounts'] ) ? $data['accounts'] : null;
+		$this->forms         = isset( $data['forms'] ) ? $data['forms'] : null;
+		$this->license_key   = isset( $data['brizy-license-key'] ) ? $data['brizy-license-key'] : null;
+		$this->cloud_token   = isset( $data['brizy-cloud-token'] ) ? $data['brizy-cloud-token'] : null;
+		$this->cloud_project = isset( $data['brizy-cloud-project'] ) ? $data['brizy-cloud-project'] : null;
 	}
 
 	/**

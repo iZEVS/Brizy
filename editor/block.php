@@ -9,6 +9,8 @@
 
 class Brizy_Editor_Block extends Brizy_Editor_Post {
 
+	protected $position = 0;
+
 	/**
 	 * @param $apost
 	 *
@@ -54,10 +56,35 @@ class Brizy_Editor_Block extends Brizy_Editor_Post {
 		}
 	}
 
+	public function setPosition( $position ) {
+		$this->position = $position;
+
+		return $this;
+	}
+
+	public function getPosition() {
+		return $this->position;
+	}
+
 	public function jsonSerialize() {
-		$data = get_object_vars( $this );
+		$data                = get_object_vars( $this );
 		$data['editor_data'] = base64_decode( $data['editor_data'] );
 		unset( $data['wp_post'] );
+
 		return $data;
 	}
+
+	public function loadStorageData( $data ) {
+		parent::loadStorageData( $data );
+
+		$this->position = $data['position'];
+	}
+
+	public function convertToOptionValue() {
+		$data             = parent::convertToOptionValue();
+		$data['position'] = $this->getPosition();
+
+		return $data;
+	}
+
 }

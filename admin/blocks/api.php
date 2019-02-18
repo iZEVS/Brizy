@@ -22,6 +22,12 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 	const DELETE_GLOBAL_BLOCK_ACTION = 'brizy-delete-global-block';
 
 	const DELETE_SAVED_BLOCK_ACTION = 'brizy-delete-saved-block';
+	const UPDATE_BLOCK_POSITIONS_ACTION = 'brizy-update-block-positions';
+
+	/**
+	 * @var Brizy_Admin_Rules_Manager
+	 */
+	private $ruleManager;
 
 	/**
 	 * @return Brizy_Admin_Blocks_Api
@@ -30,10 +36,21 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		static $instance;
 
 		if ( ! $instance ) {
-			$instance = new self();
+			$instance = new self( new Brizy_Admin_Rules_Manager() );
 		}
 
 		return $instance;
+	}
+
+	/**
+	 * Brizy_Admin_Blocks_Api constructor.
+	 *
+	 * @param Brizy_Admin_Rules_Manager $ruleManager
+	 */
+	public function __construct( $ruleManager ) {
+		$this->ruleManager = $ruleManager;
+
+		parent::__construct();
 	}
 
 	protected function getRequestNonce() {
@@ -49,6 +66,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		add_action( 'wp_ajax_' . self::DELETE_GLOBAL_BLOCK_ACTION, array( $this, 'actionDeleteGlobalBlock' ) );
 		add_action( 'wp_ajax_' . self::CREATE_SAVED_BLOCK_ACTION, array( $this, 'actionCreateSavedBlock' ) );
 		add_action( 'wp_ajax_' . self::DELETE_SAVED_BLOCK_ACTION, array( $this, 'actionDeleteSavedBlock' ) );
+		add_action( 'wp_ajax_' . self::UPDATE_BLOCK_POSITIONS_ACTION, array( $this, 'actionUpdateBlockPositions' ) );
 	}
 
 	public function actionGetGlobalBlocks() {
@@ -89,13 +107,26 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		}
 
 		try {
-			$data  = stripslashes( $this->param( 'data' ) );
-			$block = $this->createBlock( $this->param( 'uid' ), 'publish', Brizy_Admin_Blocks_Main::CP_GLOBAL );
-			$block->set_editor_data( $data );
+			$editorData = stripslashes( $this->param( 'data' ) );
+			$block      = $this->createBlock( $this->param( 'uid' ), 'publish', Brizy_Admin_Blocks_Main::CP_GLOBAL );
+			$block->set_editor_data( $editorData );
 			$block->set_needs_compile( true );
+			$block->setPosition( $this->param( 'position' ) );
+
+			// rules
+			$rulesData = stripslashes( $this->param( 'rules' ) );
+			$rules     = $this->ruleManager->createRulesFromJson( $rulesData, Brizy_Admin_Blocks_Main::CP_GLOBAL );
+
+			// validate rule
+			if ( $errors = $this->ruleManager->validateRules( Brizy_Admin_Blocks_Main::CP_GLOBAL, $rules ) ) {
+				wp_send_json_error( $errors, 400 );
+			}
+
+			$this->ruleManager->addRules( $block->get_wp_post()->ID, $rules );
+
 			$block->save();
 
-			do_action('brizy_global_data_updated');
+			do_action( 'brizy_global_data_updated' );
 
 			$this->success( $block );
 
@@ -122,7 +153,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 			$block->set_needs_compile( true );
 			$block->save();
 
-			do_action('brizy_global_data_updated');
+			do_action( 'brizy_global_data_updated' );
 
 			$this->success( $block );
 
@@ -147,12 +178,25 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 			$block = $this->getBlock( $this->param( 'uid' ), Brizy_Admin_Blocks_Main::CP_GLOBAL );
 
 			$block->set_editor_data( stripslashes( $this->param( 'data' ) ) );
+			$block->setPosition( $this->param( 'position' ) );
+
+
+			// rules
+			$rulesData = stripslashes( $this->param( 'rules' ) );
+			$rules     = $this->ruleManager->createRulesFromJson( $rulesData, Brizy_Admin_Blocks_Main::CP_GLOBAL );
+
+			// validate rule
+			if ( $errors = $this->ruleManager->validateRules( Brizy_Admin_Blocks_Main::CP_GLOBAL, $rules ) ) {
+				wp_send_json_error( $errors, 400 );
+			}
+
+			$this->ruleManager->addRules( $block->get_wp_post()->ID, $rules );
 
 			if ( (int) $this->param( 'is_autosave' ) ) {
 				$block->auto_save_post();
 			} else {
 				$block->save();
-				do_action('brizy_global_data_updated');
+				do_action( 'brizy_global_data_updated' );
 			}
 
 			$this->success( $block->convertToOptionValue() );
@@ -182,7 +226,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 				$block->auto_save_post();
 			} else {
 				$block->save();
-				do_action('brizy_global_data_updated');
+				do_action( 'brizy_global_data_updated' );
 			}
 
 			$this->success( $block->convertToOptionValue() );
@@ -199,7 +243,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		}
 
 		if ( $this->deleteBlock( $this->param( 'uid' ), Brizy_Admin_Blocks_Main::CP_GLOBAL ) ) {
-			do_action('brizy_global_data_updated');
+			do_action( 'brizy_global_data_updated' );
 			$this->success( null );
 		}
 
@@ -214,11 +258,41 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		}
 
 		if ( $this->deleteBlock( $this->param( 'uid' ), Brizy_Admin_Blocks_Main::CP_SAVED ) ) {
-			do_action('brizy_global_data_updated');
+			do_action( 'brizy_global_data_updated' );
 			$this->success( null );
 		}
 
 		$this->error( '404', 'Block not found' );
+	}
+
+	public function actionUpdateBlockPositions() {
+
+		global $wpdb;
+
+		$this->verifyNonce( self::nonce );
+
+		$positions      = file_get_contents( "php://input" );
+		$positionObject = json_decode( $positions );
+
+		$wpdb->query( 'START TRANSACTION ' );
+
+		try {
+
+			foreach ( get_object_vars( $positionObject ) as $uid => $position ) {
+				$block = $this->getBlock( $uid, Brizy_Admin_Blocks_Main::CP_GLOBAL );
+				$block->setPosition( (int) $position );
+				$block->save();
+			}
+
+			$wpdb->query( 'COMMIT' );
+
+		} catch ( Exception $e ) {
+			$wpdb->query( 'ROLLBACK' );
+
+			$this->error( '400', 'Unable to save block positions' );
+		}
+
+		$this->success( '200', json_encode( $positionObject ) );
 	}
 
 	/**
@@ -243,7 +317,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		$blocks   = array();
 
 		foreach ( $wpBlocks as $wpPost ) {
-			$blocks[] = self::postData( Brizy_Editor_Block::get( $wpPost ) );
+			$blocks[] = $this->postData( Brizy_Editor_Block::get( $wpPost ) );
 		}
 
 		return $blocks;
@@ -346,14 +420,16 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 	 *
 	 * @return array
 	 */
-	public static function postData( Brizy_Editor_Block $post ) {
+	public function postData( Brizy_Editor_Block $post ) {
 
 		$p_id = (int) $post->get_id();
 
 		$global = array(
-			'data'   => $post->get_editor_data(),
-			'uid'    => $post->get_uid(),
-			'status' => get_post_status( $p_id ),
+			'uid'      => $post->get_uid(),
+			'status'   => get_post_status( $p_id ),
+			'data'     => $post->get_editor_data(),
+			'position' => $post->getPosition(),
+			'rules'    => $this->ruleManager->getRules( $p_id ),
 		);
 
 		return $global;
