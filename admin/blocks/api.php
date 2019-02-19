@@ -111,7 +111,7 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 			$block      = $this->createBlock( $this->param( 'uid' ), 'publish', Brizy_Admin_Blocks_Main::CP_GLOBAL );
 			$block->set_editor_data( $editorData );
 			$block->set_needs_compile( true );
-			$block->setPosition( $this->param( 'position' ) );
+			$block->setPosition( (int)$this->param( 'position' ) );
 
 			// rules
 			$rulesData = stripslashes( $this->param( 'rules' ) );
