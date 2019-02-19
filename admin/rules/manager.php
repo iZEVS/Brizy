@@ -106,7 +106,7 @@ class Brizy_Admin_Rules_Manager {
 	 * @param Brizy_Admin_Rule[] $rules
 	 */
 	public function addRules( $postId, $rules ) {
-		$current_rules = $this->getRuleSet( $postId );
+		$current_rules = $this->getRules( $postId );
 		$result_rules  = array_merge( $current_rules, $rules );
 		$this->saveRules( $postId, $result_rules );
 

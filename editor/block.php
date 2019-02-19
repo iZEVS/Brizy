@@ -43,7 +43,6 @@ class Brizy_Editor_Block extends Brizy_Editor_Post {
 
 		// get the storage values
 		$storage = $this->storage();
-		//$storageData          = $storage->get_storage();
 		$storage_post = $storage->get( self::BRIZY_POST, false );
 
 		$this->loadStorageData( $storage_post );
@@ -69,6 +68,11 @@ class Brizy_Editor_Block extends Brizy_Editor_Post {
 	public function jsonSerialize() {
 		$data                = get_object_vars( $this );
 		$data['editor_data'] = base64_decode( $data['editor_data'] );
+
+		$ruleManager = new Brizy_Admin_Rules_Manager();
+
+		$data['rules'] = $ruleManager->getRules( $this->get_id() );
+
 		unset( $data['wp_post'] );
 
 		return $data;
@@ -83,6 +87,10 @@ class Brizy_Editor_Block extends Brizy_Editor_Post {
 	public function convertToOptionValue() {
 		$data             = parent::convertToOptionValue();
 		$data['position'] = $this->getPosition();
+
+		$ruleManager = new Brizy_Admin_Rules_Manager();
+
+		$data['rules'] = $ruleManager->getRules( $this->get_id() );
 
 		return $data;
 	}
