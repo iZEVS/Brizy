@@ -187,6 +187,8 @@ class Brizy_Admin_Templates {
 
 	static public function registerCustomPostTemplate() {
 
+	    if(is_network_admin()) return;
+
 		$labels = array(
 			'name'               => _x( 'Templates', 'post type general name' ),
 			'singular_name'      => _x( 'Template', 'post type singular name' ),
