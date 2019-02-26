@@ -42,7 +42,7 @@ class Brizy_Editor_Block extends Brizy_Editor_Post {
 		}
 
 		// get the storage values
-		$storage = $this->storage();
+		$storage      = $this->storage();
 		$storage_post = $storage->get( self::BRIZY_POST, false );
 
 		$this->loadStorageData( $storage_post );
@@ -81,7 +81,9 @@ class Brizy_Editor_Block extends Brizy_Editor_Post {
 	public function loadStorageData( $data ) {
 		parent::loadStorageData( $data );
 
-		$this->position = $data['position'];
+		if ( isset( $data['position'] ) ) {
+			$this->position = $data['position'];
+		}
 	}
 
 	public function convertToOptionValue() {
