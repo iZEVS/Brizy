@@ -285,6 +285,24 @@ class Brizy_Admin_Main {
 				)
 			)
 		);
+
+		wp_enqueue_script(
+			Brizy_Editor::get()->get_slug() . '-unsplash',
+			Brizy_Editor::get()->get_url( 'admin/static/js/unsplash.js' ),
+			array( 'jquery' ),
+			Brizy_Editor::get()->get_version(),
+			true
+		);
+
+		wp_localize_script(
+			Brizy_Editor::get()->get_slug() . '-unsplash',
+			'BrizyUnsplash',
+			array(
+				'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
+				'actionGetImgs' => Brizy_Editor_MediaProviders_Unsplash::AJAX_GET_IMGS,
+				'nonce'         => wp_create_nonce( Brizy_Editor_MediaProviders_Unsplash::NONCE ),
+			)
+		);
 	}
 
 	/**
