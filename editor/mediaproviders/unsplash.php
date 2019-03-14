@@ -63,47 +63,99 @@ class Brizy_Editor_MediaProviders_Unsplash {
 		$body = array(
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 			array(
 				'id'  => 'type-away',
-				'src' => 'https://images.unsplash.com/1/type-away.jpg?q=80&fm=jpg&w=400&fit=max'
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
+			),
+			array(
+				'id'  => 'type-away',
+				'src' => 'https://i.ytimg.com/vi/T6BjCS0oI6s/hqdefault.jpg'
 			),
 		);
 
@@ -113,32 +165,67 @@ class Brizy_Editor_MediaProviders_Unsplash {
 	public function uploadImg() {
 		$this->authorize();
 
-		$image = $_POST['src'];
+		// Gives us access to the download_url() and wp_handle_sideload() functions
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
 
-		$get = wp_remote_get( $image );
+		$url = $_POST['src'];
 
-		$type = wp_remote_retrieve_header( $get, 'content-type' );
+		// Download file to temp dir
+		$temp_file = download_url( $url, 30 );
 
-		if ( ! $type ) {
-			$this->error( 500, esc_html__( 'Unsplash returned an undefined image type', 'brizy' ) );
+		if ( is_wp_error( $temp_file ) ) {
+			$this->error( 500, 'download_url message: ' . $temp_file->get_error_message() );
 		}
 
-		$mirror = wp_upload_bits( basename( $image ), '', wp_remote_retrieve_body( $get ) );
-
-		$attachment = array(
-			'post_title'     => basename( $image ),
-			'post_mime_type' => $type
+		// Array based on $_FILE as seen in PHP file uploads
+		$file = array(
+			'name'     => basename( $url ),
+			'type'     => 'image/png',
+			'tmp_name' => $temp_file,
+			'error'    => 0,
+			'size'     => filesize( $temp_file ),
 		);
 
-		$attach_id = wp_insert_attachment( $attachment, $mirror['file'], $parent_id );
+		$overrides = array(
+			'test_form' => false,
+			'test_size' => true,
+		);
 
+		$results = wp_handle_sideload( $file, $overrides );
+
+		if ( ! empty( $results['error'] ) ) {
+			$this->error( 500, 'wp_handle_sideload message: ' . $results['error'] );
+		}
+
+		$filename  = $results['file']; // Full path to the file
+
+		$attachment = array(
+			'guid'           => $results['url'],
+			'post_mime_type' => $results['type'],
+			'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $filename ) ),
+			'post_content'   => '',
+			'post_status'    => 'inherit'
+		);
+
+		$attach_id = wp_insert_attachment( $attachment, $filename );
+
+		// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
 		require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
-		$attach_data = wp_generate_attachment_metadata( $attach_id, $mirror['file'] );
-
+		// Generate the metadata for the attachment, and update the database record.
+		$attach_data = wp_generate_attachment_metadata( $attach_id, $filename );
 		wp_update_attachment_metadata( $attach_id, $attach_data );
 
-		$this->success( $body );
+		if ( ! $attachment = wp_prepare_attachment_for_js( $attach_id ) ) {
+			$this->error( 500, 'Prepare attachment for js failed.' );
+		}
+
+		echo wp_json_encode( array(
+			'success' => true,
+			'data'    => $attachment,
+		) );
+
+		//$this->success( array( 'message' => esc_html__( 'The image was uploaded successfully!', 'brizy' ) ) );
 	}
 
 	protected function error( $code, $message ) {

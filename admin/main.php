@@ -298,9 +298,10 @@ class Brizy_Admin_Main {
 			Brizy_Editor::get()->get_slug() . '-unsplash',
 			'BrizyUnsplash',
 			array(
-				'ajaxUrl'       => admin_url( 'admin-ajax.php' ),
-				'actionGetImgs' => Brizy_Editor_MediaProviders_Unsplash::AJAX_GET_IMGS,
-				'nonce'         => wp_create_nonce( Brizy_Editor_MediaProviders_Unsplash::NONCE ),
+				'ajaxUrl'         => admin_url( 'admin-ajax.php' ),
+				'actionGetImgs'   => Brizy_Editor_MediaProviders_Unsplash::AJAX_GET_IMGS,
+				'actionUploadImg' => Brizy_Editor_MediaProviders_Unsplash::AJAX_UPLOAD_IMG,
+				'nonce'           => wp_create_nonce( Brizy_Editor_MediaProviders_Unsplash::NONCE ),
 			)
 		);
 	}

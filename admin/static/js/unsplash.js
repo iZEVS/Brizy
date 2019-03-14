@@ -1,107 +1,193 @@
-var l10n = wp.media.view.l10n;
-wp.media.view.MediaFrame.Select.prototype.browseRouter = function ( routerView ) {
-	routerView.set( {
-		upload: {
-			text: l10n.uploadFilesTitle,
-			priority: 20
+(function ( $, Brizy, mediaView, l10n ) {
+
+	var Unsplash = {
+		mediaFrameContent: function() {
+			return $( 'body .media-modal-content .media-frame-content' );
 		},
-		browse: {
-			text: l10n.mediaLibraryTitle,
-			priority: 40
+
+		getToolbar: function() {
+
+			return '<div class="media-toolbar">' +
+				       '<div class="media-toolbar-secondary">' +
+				            '<span class="spinner"></span>' +
+				       '</div>' +
+				       '<div class="media-toolbar-primary search-form">' +
+				            '<label for="media-search-input" class="screen-reader-text">' + l10n.searchMediaLabel + '</label>' +
+				            '<input type="search" placeholder="' + l10n.searchMediaPlaceholder  +'" class="search brz-unsplash-search">' +
+				       '</div>' +
+			       '</div>';
 		},
-		unsplash: {
-			text: 'Unsplash',
-			priority: 60
-		}
-	} );
-};
 
-jQuery( document ).ready( function ( $ ) {
+		getImgs: function( query, page, append ) {
 
-	if ( ! wp.media ) {
-		return;
-	}
+			$( '.attachments-browser' ).find( '.spinner' ).show();
 
-	wp.media.view.Modal.prototype.on( 'open', function () {
-		if ( $( 'body' ).find( '.media-modal-content .media-router a.media-menu-item.active' ).text() === 'Unsplash' ) {
-			getImgs( 'test', 1 );
-		}
-	} );
+			var self = this;
 
-	$( wp.media ).on( 'click', '.media-router a.media-menu-item', function ( e ) {
-		if ( e.target.innerText === 'Unsplash' ) {
-			getImgs( 'test', 1 );
-		}
-	} );
-} );
+			$.ajax( {
+				type: "POST",
+				url: Brizy.ajaxUrl,
+				data: {
+					action: Brizy.actionGetImgs,
+					nonce: Brizy.nonce,
+					page: page,
+					query: query
+				}
 
-$( document ).on( 'click', '.brz-imgs li', function() {
-	$( '.brz-imgs li.selected' ).removeClass( 'selected' ).removeClass( 'details' );
-	$( this ).addClass( 'selected details' );
-	$( this ).closest( '.media-modal-content' ).find( '.media-toolbar .media-button-select' ).removeAttr( 'disabled' );
-} );
+			} ).done( function ( reply ) {
 
+				 if ( ! reply.success ) {
+					 return;
+				 }
 
-function getImgs( query, page ) {
+				 self.insertItems( reply.data, append );
 
-	$( '.attachments-browser' ).find( '.spinner' ).show();
+				 $( '.attachments-browser' ).find( '.spinner' ).hide();
+			} );
+		},
 
-	$.ajax( {
-		type: "POST",
-		url: BrizyUnsplash.ajaxUrl,
-		data: {
-			action: BrizyUnsplash.actionGetImgs,
-			nonce: BrizyUnsplash.nonce,
-			page: page,
-			query: query
-		}
-	} )
-	 .done( function ( reply ) {
-	 	if ( ! reply.success ) {
-	 		return;
-	    }
+		getItemsHtml: function( items ) {
+			var out = '';
 
-		 insertImgs( reply.data );
-
-		 $( '.attachments-browser' ).find( '.spinner' ).hide();
-	 } )
-	 .fail( function ( jqXHR, textStatus ) {
-
-	 } );
-}
-
-function insertImgs( imgs ) {
-	var html       = '<ul class="attachments ui-sortable ui-sortable-disabled brz-imgs">',
-		containter = $( 'body .media-modal-content .media-frame-content' );
-
-	for ( var i = 0; i < imgs.length; i++ ) {
-		html +=
-			'<li class="attachment save-ready" data-id="' + imgs[i].id + '">' +
-		        '<div class="attachment-preview js--select-attachment type-image subtype-jpeg landscape">' +
-					'<div class="thumbnail">' +
-						'<div class="centered">' +
-							'<img src="' + imgs[i].src + '">' +
+			for ( var i = 0; i < items.length; i++ ) {
+				out +=
+					'<li class="attachment save-ready" data-id="' + items[i].id + '" data-unsplash-src="' + items[i].src + '">' +
+						'<div class="attachment-preview js--select-attachment type-image subtype-jpeg landscape">' +
+							'<div class="thumbnail">' +
+								'<div class="centered">' +
+									'<img src="' + items[i].src + '">' +
+								'</div>' +
+							'</div>' +
 						'</div>' +
-					'</div>' +
-				'</div>' +
-				'<button type="button" class="check" tabindex="0">' +
-					'<span class="media-modal-icon"></span><span class="screen-reader-text">Deselect</span>' +
-				'</button>' +
-			'</li>';
-	}
+						'<button type="button" class="check" tabindex="0">' +
+							'<span class="media-modal-icon"></span><span class="screen-reader-text">Deselect</span>' +
+						'</button>' +
+					'</li>';
+			}
 
-	html += '</ul>';
+			return out;
+		},
 
-	var mediaToolbar =
-		'<div class="media-toolbar">' +
-			'<div class="media-toolbar-secondary">' +
-				'<span class="spinner"></span>' +
-			'</div>' +
-			'<div class="media-toolbar-primary search-form">' +
-				'<label for="media-search-input" class="screen-reader-text">Search Media</label>' +
-				'<input type="search" placeholder="Search media items..." id="media-search-input" class="search">' +
-			'</div>' +
-		'</div>';
+		insertItems: function( items, append ) {
+			var itemsHtml = this.getItemsHtml( items ),
+				imgsContainer = $( '.brz-imgs' );
 
-	containter.html( '<div class="attachments-browser">' + mediaToolbar + html + '</div>' );
-}
+			if ( imgsContainer.length === 0 ) {
+
+				this.mediaFrameContent().attr( 'data-columns', 8 );
+
+				this.mediaFrameContent().html(
+					'<div class="attachments-browser hide-sidebar">' +
+						this.getToolbar() +
+						'<ul class="attachments ui-sortable ui-sortable-disabled brz-imgs" data-page="1" id="brz-imgs-wrapp">' +
+							itemsHtml +
+						'</ul>' +
+					'</div>'
+				);
+
+			} else if ( append ) {
+				imgsContainer.append( itemsHtml );
+			} else {
+				imgsContainer.html( itemsHtml );
+			}
+		},
+
+		uploadImg: function( item ) {
+
+			if ( item.length === 0 ) {
+				return;
+			}
+
+			$.ajax( {
+				type: "POST",
+				url: Brizy.ajaxUrl,
+				data: {
+					action: Brizy.actionUploadImg,
+					nonce: Brizy.nonce,
+					id: item.attr( 'data-id' ),
+					src: item.attr( 'data-unsplash-src' ),
+				}
+
+			} ).done( function ( reply ) {
+
+				if ( ! reply.success ) {
+					return;
+				}
+
+				$( '.attachments-browser' ).find( '.spinner' ).hide();
+			} );
+		},
+
+		init: function() {
+			var self = this;
+
+			mediaView.Modal.prototype.on( 'open', function () {
+				if ( $( 'body' ).find( '.media-modal-content .media-router a.media-menu-item.active' ).text() === 'Unsplash' ) {
+					self.getImgs( 'test', 1 );
+				}
+			} );
+
+			$( wp.media ).on( 'click', '.media-router a.media-menu-item', function ( e ) {
+				if ( e.target.innerText === 'Unsplash' ) {
+					self.getImgs( 'test', 1 );
+				}
+			} );
+
+			$( document ).on( 'change keyup search', '.brz-unsplash-search', function() {
+				console.log( $( this ).val() );
+				self.getImgs( $( this ).val(), $( '.brz-imgs' ).attr( 'data-page' ) );
+			} );
+
+			document.addEventListener( 'scroll', function ( event ) {
+
+				if ( event.target.id !== 'brz-imgs-wrapp' ) {
+					return;
+				}
+
+				var item = $( event.target );
+
+				if ( item.scrollTop() + item.innerHeight() + 10 < item[0].scrollHeight ) {
+					return;
+				}
+
+				self.getImgs( $( '.brz-unsplash-search' ).val(), item.attr( 'data-page' ), true );
+
+			}, true );
+
+			$( document ).on( 'click', '.brz-imgs li', function() {
+				$( '.brz-imgs li.selected' ).removeClass( 'selected' ).removeClass( 'details' );
+				$( this ).addClass( 'selected details' );
+				$( this ).closest( '.media-modal-content' ).find( '.media-toolbar .media-button-select' ).removeAttr( 'disabled' );
+			} );
+
+			$( document ).on( 'click', '.media-modal-content .media-toolbar .media-button-select', function() {
+				self.uploadImg( $( '.media-modal-content .brz-imgs .selected' ) );
+			} );
+		},
+
+	};
+
+	mediaView.MediaFrame.Select.prototype.browseRouter = function ( routerView ) {
+		routerView.set( {
+			upload: {
+				text: l10n.uploadFilesTitle,
+				priority: 20
+			},
+			browse: {
+				text: l10n.mediaLibraryTitle,
+				priority: 40
+			},
+			unsplash: {
+				text: 'Unsplash',
+				priority: 60
+			}
+		} );
+	};
+
+	Unsplash.init();
+
+} )( jQuery, BrizyUnsplash, wp.media.view, wp.media.view.l10n );
+/*
+// Refresh media frame
+https://wordpress.stackexchange.com/questions/78230/trigger-refresh-for-new-media-manager-in-3-5
+*/
