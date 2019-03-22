@@ -122,44 +122,34 @@ class Brizy_Editor_Editor_Editor {
 			);
 		}
 
-
 		$config = array(
-			'hosts'           => array(
-				'api'     => Brizy_Config::EDITOR_HOST_API,
-				'base'    => Brizy_Config::EDITOR_HOST_BASE,
-				'origin'  => Brizy_Config::EDITOR_HOST_ORIGIN,
-				'primary' => Brizy_Config::EDITOR_HOST_PRIMARY,
+			'user'            => array( 'role' => 'admin' ),
+			'project'         => array(
+				'id' => $this->project->getId()
 			),
-			'project'         => $this->project->getId(),
-			'projectLanguage' => array(
-				'id'      => 7,
-				'variant' => array(
-					'id'   => 7,
-					'name' => 'A',
-				),
-			),
-			'serverTimestamp' => time(),
 			'urls'            => array(
+				'site'                => home_url(),
 				'api'                 => home_url( '/wp-json/v1' ),
-				'base'                => Brizy_Config::getEditorBaseUrls() . "",
-				'integration'         => Brizy_Config::EDITOR_INTEGRATION_URL,
-				'image'               => $this->urlBuilder->external_media_url() . "",
-				'origin'              => Brizy_Config::EDITOR_ORIGIN_URL,
-				'pagePreview'         => $preview_post_link,
-				'pluginSettings'      => admin_url( 'admin.php?page=' . Brizy_Admin_Settings::menu_slug() ),
-				'change_template_url' => $change_template_url,
-				'backToWordPress'     => get_edit_post_link( $wp_post_id, null ),
 				'assets'              => $this->urlBuilder->editor_build_url(),
-				'pageAssets'          => $this->urlBuilder->page_upload_url(),
-				'templateFonts'       => 'https://app.brizy.io/fonts/public?path=' . BRIZY_EDITOR_VERSION,
+				'image'               => $this->urlBuilder->external_media_url() . "",
 				'blockThumbnails'     => $this->urlBuilder->external_asset_url( 'template/img-block-thumbs' ) . "",
 				'templateIcons'       => $this->urlBuilder->proxy_url( 'template/icons' ),
-				'site'                => home_url(),
+				'templateFonts'       => 'https://app.brizy.io/fonts/public?path=' . BRIZY_EDITOR_VERSION,
+				'pagePreview'         => $preview_post_link,
+
+				// wp specific
+				'changeTemplate'      => $change_template_url,
 				'upgradeToPro'        => apply_filters( 'brizy_upgrade_to_pro_url', Brizy_Config::UPGRADE_TO_PRO_URL ),
 				'supportUrl'          => apply_filters( 'brizy_support_url', Brizy_Config::SUPPORT_URL ),
-				'dashboardNavMenu'    => admin_url( 'nav-menus.php' )
+				'pluginSettings'      => admin_url( 'admin.php?page=' . Brizy_Admin_Settings::menu_slug() ),
+				'backToWordPress'     => get_edit_post_link( $wp_post_id, null ),
+				'dashboardNavMenu'    => admin_url( 'nav-menus.php' ),
 			),
-			'user'            => array( 'role' => 'admin' ),
+			'form' => array(
+				'submitUrl' => add_query_arg( 'action', 'brizy_submit_form', set_url_scheme( admin_url( 'admin-ajax.php' ) ) )
+			),
+			'serverTimestamp' => time(),
+			'menuData'        => $this->get_menu_data(),
 			'wp'              => array(
 				'permalink'       => get_permalink( $wp_post_id ),
 				'page'            => $wp_post_id,
@@ -170,10 +160,8 @@ class Brizy_Editor_Editor_Editor {
 				'api'             => array(
 					'hash'                       => wp_create_nonce( Brizy_Editor_API::nonce ),
 					'url'                        => set_url_scheme( admin_url( 'admin-ajax.php' ) ),
-					'globals'                    => array(
-						'set' => Brizy_Editor_API::AJAX_SET_GLOBALS,
-						'get' => Brizy_Editor_API::AJAX_GET_GLOBALS,
-					),
+					'getGlobals'                 => Brizy_Editor_API::AJAX_GET_GLOBALS,
+					'setGlobals'                 => Brizy_Editor_API::AJAX_SET_GLOBALS,
 					'media'                      => Brizy_Editor_API::AJAX_MEDIA,
 					'ping'                       => Brizy_Editor_API::AJAX_PING,
 					'getPage'                    => Brizy_Editor_API::AJAX_GET,
@@ -230,16 +218,10 @@ class Brizy_Editor_Editor_Editor {
 					'woocommerce' => $this->get_woocomerce_plugin_info(),
 				),
 				'hasSidebars'     => count( $wp_registered_sidebars ) > 0,
-				'l10n'            => Brizy_Languages_Texts::get_editor_texts(),
+				'l10n'            => (object) Brizy_Public_EditorBuild_Texts::get_editor_texts(),
 				'pageData'        => apply_filters( 'brizy_page_data', array() ),
 				'isTemplate'      => $isTemplate
 			),
-			'applications'    => array(
-				'form' => array(
-					'submitUrl' => add_query_arg( 'action', 'brizy_submit_form', set_url_scheme( admin_url( 'admin-ajax.php' ) ) )
-				)
-			),
-			'menuData'        => $this->get_menu_data()
 		);
 
 		return self::$config = apply_filters( 'brizy_editor_config', $config );
