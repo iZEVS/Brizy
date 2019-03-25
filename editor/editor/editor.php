@@ -149,7 +149,7 @@ class Brizy_Editor_Editor_Editor {
 				'pluginSettings'      => admin_url( 'admin.php?page=' . Brizy_Admin_Settings::menu_slug() ),
 				'change_template_url' => $change_template_url,
 				'backToWordPress'     => get_edit_post_link( $wp_post_id, null ),
-				'assets'              => $this->urlBuilder->editor_asset_url(),
+				'assets'              => $this->urlBuilder->editor_build_url(),
 				'pageAssets'          => $this->urlBuilder->page_upload_url(),
 				'templateFonts'       => 'https://app.brizy.io/fonts/public?path=' . BRIZY_EDITOR_VERSION,
 				'blockThumbnails'     => $this->urlBuilder->external_asset_url( 'template/img-block-thumbs' ) . "",
