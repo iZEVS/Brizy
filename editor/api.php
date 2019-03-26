@@ -3,26 +3,24 @@
 class Brizy_Editor_API {
 
 	const nonce = 'brizy-api';
-	const AJAX_PING = 'brizy_editor_ping';
 	const AJAX_GET = 'brizy_editor_get_items';
 	const AJAX_UPDATE = 'brizy_update_item';
 	const AJAX_GET_GLOBALS = 'brizy_get_gb';
 	const AJAX_SET_GLOBALS = 'brizy_set_gb';
 	const AJAX_MEDIA = 'brizy_media';
 	const AJAX_SIDEBARS = 'brizy_sidebars';
-	const AJAX_BUILD = 'brizy_build';
+	//const AJAX_BUILD = 'brizy_build';
 	const AJAX_SIDEBAR_CONTENT = 'brizy_sidebar_content';
 	const AJAX_SHORTCODE_CONTENT = 'brizy_shortcode_content';
-	const AJAX_SHORTCODE_LIST = 'brizy_shortcode_list';
-	const AJAX_GET_TEMPLATES = 'brizy_get_templates';
-	const AJAX_GET_INTERNAL_LINKS = 'brizy_get_internal_links';
+	//const AJAX_SHORTCODE_LIST = 'brizy_shortcode_list';
+	//const AJAX_GET_TEMPLATES = 'brizy_get_templates';
+	//const AJAX_GET_INTERNAL_LINKS = 'brizy_get_internal_links';
 	const AJAX_GET_POST_OBJECTS = 'brizy_get_posts';
 	const AJAX_GET_MENU_LIST = 'brizy_get_menu_list';
-	const AJAX_SAVE_TRIGGER = 'brizy_update_post';
-	const AJAX_GET_TAXONOMIES = 'brizy_get_taxonomies';
+	//const AJAX_SAVE_TRIGGER = 'brizy_update_post';
+	//const AJAX_GET_TAXONOMIES = 'brizy_get_taxonomies';
 	const AJAX_GET_TERMS = 'brizy_get_terms';
 	const AJAX_JWT_TOKEN = 'brizy_multipass_create';
-
 
 	const AJAX_UPDATE_MENU_DATA = 'brizy_update_menu_data';
 	const AJAX_UPDATE_MENU_ITEM_DATA = 'brizy_update_menu_item_data';
@@ -62,7 +60,6 @@ class Brizy_Editor_API {
 	private function initialize() {
 
 		if ( Brizy_Editor::is_user_allowed() ) {
-			add_action( 'wp_ajax_' . self::AJAX_PING, array( $this, 'ping' ) );
 			add_action( 'wp_ajax_' . self::AJAX_GET, array( $this, 'get_item' ) );
 			add_action( 'wp_ajax_' . self::AJAX_UPDATE, array( $this, 'update_item' ) );
 			add_action( 'wp_ajax_' . self::AJAX_GET_GLOBALS, array( $this, 'get_globals' ) );
@@ -70,16 +67,16 @@ class Brizy_Editor_API {
 			//add_action( 'wp_ajax_' . self::AJAX_MEDIA, array( $this, 'media' ) );
 			add_action( 'wp_ajax_' . self::AJAX_SIDEBARS, array( $this, 'get_sidebars' ) );
 			//add_action( 'wp_ajax_' . self::AJAX_BUILD, array( $this, 'build_content' ) );
-			add_action( 'wp_ajax_' . self::AJAX_SIDEBAR_CONTENT, array( $this, 'sidebar_content' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_SIDEBAR_CONTENT, array( $this, 'sidebar_content' ) );
 			add_action( 'wp_ajax_' . self::AJAX_SHORTCODE_CONTENT, array( $this, 'shortcode_content' ) );
-			add_action( 'wp_ajax_' . self::AJAX_SHORTCODE_LIST, array( $this, 'shortcode_list' ) );
-			add_action( 'wp_ajax_' . self::AJAX_GET_TEMPLATES, array( $this, 'template_list' ) );
-			add_action( 'wp_ajax_' . self::AJAX_GET_INTERNAL_LINKS, array( $this, 'get_internal_links' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_SHORTCODE_LIST, array( $this, 'shortcode_list' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_GET_TEMPLATES, array( $this, 'template_list' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_GET_INTERNAL_LINKS, array( $this, 'get_internal_links' ) );
 			add_action( 'wp_ajax_' . self::AJAX_GET_POST_OBJECTS, array( $this, 'get_post_objects' ) );
 			add_action( 'wp_ajax_' . self::AJAX_GET_MENU_LIST, array( $this, 'get_menu_list' ) );
-			add_action( 'wp_ajax_' . self::AJAX_SAVE_TRIGGER, array( $this, 'save_trigger' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_SAVE_TRIGGER, array( $this, 'save_trigger' ) );
 			add_action( 'wp_ajax_' . self::AJAX_GET_TERMS, array( $this, 'get_terms' ) );
-			add_action( 'wp_ajax_' . self::AJAX_GET_TAXONOMIES, array( $this, 'get_taxonomies' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_GET_TAXONOMIES, array( $this, 'get_taxonomies' ) );
 			add_action( 'wp_ajax_' . self::AJAX_DOWNLOAD_MEDIA, array( $this, 'download_media' ) );
 			add_action( 'wp_ajax_' . self::AJAX_MEDIA_METAKEY, array( $this, 'get_media_key' ) );
 			add_action( 'wp_ajax_' . self::AJAX_JWT_TOKEN, array( $this, 'multipass_create' ) );
@@ -93,8 +90,9 @@ class Brizy_Editor_API {
 //			) );
 //			add_action( 'wp_ajax_' . self::AJAX_DELETE_FORM, array( $this, 'delete_form' ) );
 
-			add_action( 'wp_ajax_' . self::AJAX_UPDATE_MENU_ITEM_DATA, array( $this, 'update_menu_item_data' ) );
-			add_action( 'wp_ajax_' . self::AJAX_UPDATE_MENU_DATA, array( $this, 'update_menu_data' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_UPDATE_MENU_ITEM_DATA, array( $this, 'update_menu_item_data' ) );
+			//add_action( 'wp_ajax_' . self::AJAX_UPDATE_MENU_DATA, array( $this, 'update_menu_data' ) );
+
 			add_action( 'wp_ajax_' . self::AJAX_SET_FEATURED_IMAGE, array( $this, 'set_featured_image' ) );
 			add_action( 'wp_ajax_' . self::AJAX_SET_FEATURED_IMAGE_FOCAL_POINT, array(
 				$this,
@@ -108,69 +106,69 @@ class Brizy_Editor_API {
 //		add_action( 'wp_ajax_nopriv_' . self::AJAX_SUBMIT_FORM, array( $this, 'submit_form' ) );
 	}
 
-	public function update_menu_item_data() {
-		if ( ! isset( $_POST['menuItemId'] ) || get_post_type( $_POST['menuItemId'] ) != 'nav_menu_item' ) {
-			$this->error( 400, 'Unknown menu item' );
-		}
-
-		$json_decode = json_decode( stripslashes( $_POST['menuItemData'] ) );
-
-		if ( ! isset( $_POST['menuItemData'] ) || is_null( $json_decode ) ) {
-			$this->error( 400, 'Bad request' );
-		}
-
-		$menuItems = get_posts( array(
-			'meta_key'   => 'brizy_post_uid',
-			'meta_value' => $_POST['menuItemId'],
-			'post_type'  => 'nav_menu_item',
-		) );
-
-		if ( count( $menuItems ) == 0 ) {
-			$this->error( 400, 'Unknown menu item' );;
-		}
-
-		$menu = $menuItems[0];
-
-		update_post_meta( (int) $menu->ID, 'brizy_data', $json_decode );
-
-		$this->success( array() );
-	}
-
-	public function update_menu_data() {
-		if ( ! isset( $_POST['menuId'] ) ) {
-			$this->error( 400, 'Unknown menu' );
-		}
-
-		$json_decode = json_decode( stripslashes( $_POST['menuData'] ) );
-
-		if ( ! isset( $_POST['menuData'] ) || is_null( $json_decode ) ) {
-			$this->error( 400, 'Bad request' );
-		}
-
-
-		$menu = get_terms( array(
-			'taxonomy'   => 'nav_menu',
-			'hide_empty' => false,
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key'     => 'brizy_uid',
-					'value'   => $_POST['menuId'],
-					'compare' => '='
-				)
-			)
-		) );
-
-
-		if ( isset( $menu[0] ) ) {
-			$menu = $menu[0];
-		} else {
-			$this->error( 400, 'Unknown menu item' );
-		}
-		update_term_meta( (int) $menu->term_id, 'brizy_data', $json_decode );
-
-		$this->success( array() );
-	}
+//	public function update_menu_item_data() {
+//		if ( ! isset( $_POST['menuItemId'] ) || get_post_type( $_POST['menuItemId'] ) != 'nav_menu_item' ) {
+//			$this->error( 400, 'Unknown menu item' );
+//		}
+//
+//		$json_decode = json_decode( stripslashes( $_POST['menuItemData'] ) );
+//
+//		if ( ! isset( $_POST['menuItemData'] ) || is_null( $json_decode ) ) {
+//			$this->error( 400, 'Bad request' );
+//		}
+//
+//		$menuItems = get_posts( array(
+//			'meta_key'   => 'brizy_post_uid',
+//			'meta_value' => $_POST['menuItemId'],
+//			'post_type'  => 'nav_menu_item',
+//		) );
+//
+//		if ( count( $menuItems ) == 0 ) {
+//			$this->error( 400, 'Unknown menu item' );;
+//		}
+//
+//		$menu = $menuItems[0];
+//
+//		update_post_meta( (int) $menu->ID, 'brizy_data', $json_decode );
+//
+//		$this->success( array() );
+//	}
+//
+//	public function update_menu_data() {
+//		if ( ! isset( $_POST['menuId'] ) ) {
+//			$this->error( 400, 'Unknown menu' );
+//		}
+//
+//		$json_decode = json_decode( stripslashes( $_POST['menuData'] ) );
+//
+//		if ( ! isset( $_POST['menuData'] ) || is_null( $json_decode ) ) {
+//			$this->error( 400, 'Bad request' );
+//		}
+//
+//
+//		$menu = get_terms( array(
+//			'taxonomy'   => 'nav_menu',
+//			'hide_empty' => false,
+//			'meta_query' => array(
+//				'relation' => 'AND',
+//				array(
+//					'key'     => 'brizy_uid',
+//					'value'   => $_POST['menuId'],
+//					'compare' => '='
+//				)
+//			)
+//		) );
+//
+//
+//		if ( isset( $menu[0] ) ) {
+//			$menu = $menu[0];
+//		} else {
+//			$this->error( 400, 'Unknown menu item' );
+//		}
+//		update_term_meta( (int) $menu->term_id, 'brizy_data', $json_decode );
+//
+//		$this->success( array() );
+//	}
 
 	public function set_featured_image() {
 		$this->authorize();
@@ -274,19 +272,19 @@ class Brizy_Editor_API {
 	}
 
 
-	/**
-	 * @internal
-	 **/
-	public function ping() {
-		try {
-			$this->authorize();
-			$this->success( array() );
-		} catch ( Exception $exception ) {
-			Brizy_Logger::instance()->exception( $exception );
-			$this->error( $exception->getCode(), $exception->getMessage() );
-			exit;
-		}
-	}
+//	/**
+//	 * @internal
+//	 **/
+//	public function ping() {
+//		try {
+//			$this->authorize();
+//			$this->success( array() );
+//		} catch ( Exception $exception ) {
+//			Brizy_Logger::instance()->exception( $exception );
+//			$this->error( $exception->getCode(), $exception->getMessage() );
+//			exit;
+//		}
+//	}
 
 	/**
 	 * @internal
@@ -396,53 +394,53 @@ class Brizy_Editor_API {
 		}
 	}
 
-	public function save_trigger() {
-		try {
-			$this->authorize();
+//	public function save_trigger() {
+//		try {
+//			$this->authorize();
+//
+//			if ( ! $this->post->uses_editor() ) {
+//				return;
+//			}
+//
+//			$this->post->save_wp_post();
+//
+//			// get latest version of post
+//			$post                 = Brizy_Editor_Post::get( $this->post->get_parent_id() );
+//			$post_arr             = self::create_post_arr( $post );
+//			$post_arr['is_index'] = true; // this is for the case when the page we return is not an index page.. but the editor wants one.
+//			$this->success( array( $post_arr ) );
+//
+//		} catch ( Exception $exception ) {
+//			Brizy_Logger::instance()->exception( $exception );
+//			$this->error( 500, "Invalid post id" );
+//			exit;
+//		}
+//	}
 
-			if ( ! $this->post->uses_editor() ) {
-				return;
-			}
-
-			$this->post->save_wp_post();
-
-			// get latest version of post
-			$post                 = Brizy_Editor_Post::get( $this->post->get_parent_id() );
-			$post_arr             = self::create_post_arr( $post );
-			$post_arr['is_index'] = true; // this is for the case when the page we return is not an index page.. but the editor wants one.
-			$this->success( array( $post_arr ) );
-
-		} catch ( Exception $exception ) {
-			Brizy_Logger::instance()->exception( $exception );
-			$this->error( 500, "Invalid post id" );
-			exit;
-		}
-	}
-
-	public function sidebar_content() {
-		try {
-
-			if ( isset( $_REQUEST['sidebarId'] ) ) {
-				$sidebar_id = $_REQUEST['sidebarId'];
-			} else {
-				throw new Exception( 'Invalid sidebar id provided', 500 );
-			}
-
-			ob_start();
-
-			dynamic_sidebar( $sidebar_id );
-
-			$sidebar_html = ob_get_clean();
-
-			$this->success( array(
-				'sidebarId'      => $sidebar_id,
-				'sidebarContent' => $sidebar_html
-			) );
-		} catch ( Exception $exception ) {
-			Brizy_Logger::instance()->exception( $exception );
-			$this->error( $exception->getCode(), $exception->getMessage() );
-		}
-	}
+//	public function sidebar_content() {
+//		try {
+//
+//			if ( isset( $_REQUEST['sidebarId'] ) ) {
+//				$sidebar_id = $_REQUEST['sidebarId'];
+//			} else {
+//				throw new Exception( 'Invalid sidebar id provided', 500 );
+//			}
+//
+//			ob_start();
+//
+//			dynamic_sidebar( $sidebar_id );
+//
+//			$sidebar_html = ob_get_clean();
+//
+//			$this->success( array(
+//				'sidebarId'      => $sidebar_id,
+//				'sidebarContent' => $sidebar_html
+//			) );
+//		} catch ( Exception $exception ) {
+//			Brizy_Logger::instance()->exception( $exception );
+//			$this->error( $exception->getCode(), $exception->getMessage() );
+//		}
+//	}
 
 	public function shortcode_content() {
 		try {
@@ -463,34 +461,34 @@ class Brizy_Editor_API {
 		}
 	}
 
-	public function shortcode_list() {
-		try {
-			global $shortcode_tags;
-			$this->success( array_keys( $shortcode_tags ) );
-		} catch ( Exception $exception ) {
-			Brizy_Logger::instance()->exception( $exception );
-			$this->error( $exception->getCode(), $exception->getMessage() );
-		}
-	}
+//	public function shortcode_list() {
+//		try {
+//			global $shortcode_tags;
+//			$this->success( array_keys( $shortcode_tags ) );
+//		} catch ( Exception $exception ) {
+//			Brizy_Logger::instance()->exception( $exception );
+//			$this->error( $exception->getCode(), $exception->getMessage() );
+//		}
+//	}
 
-	public function template_list() {
-		try {
-			$templates = get_page_templates();
-
-			$response = array(
-				(object) array( "name" => 'Default', 'value' => 'default' )
-			);
-
-			foreach ( $templates as $name => $path ) {
-				$response[] = (object) array( "name" => $name, 'value' => $path );
-			}
-
-			$this->success( $response );
-		} catch ( Exception $exception ) {
-			Brizy_Logger::instance()->exception( $exception );
-			$this->error( $exception->getCode(), $exception->getMessage() );
-		}
-	}
+//	public function template_list() {
+//		try {
+//			$templates = get_page_templates();
+//
+//			$response = array(
+//				(object) array( "name" => 'Default', 'value' => 'default' )
+//			);
+//
+//			foreach ( $templates as $name => $path ) {
+//				$response[] = (object) array( "name" => $name, 'value' => $path );
+//			}
+//
+//			$this->success( $response );
+//		} catch ( Exception $exception ) {
+//			Brizy_Logger::instance()->exception( $exception );
+//			$this->error( $exception->getCode(), $exception->getMessage() );
+//		}
+//	}
 
 	public function get_post_objects() {
 
@@ -512,17 +510,17 @@ class Brizy_Editor_API {
 		wp_send_json( array( 'filter_term' => $searchTerm, 'posts' => $posts ), 200 );
 	}
 
-	public function get_internal_links() {
-
-		$search_term = $this->param( 'filter_term' );
-
-		$links = array();
-		$links = array_merge( $links, $this->get_post_link_list( $search_term ) );
-		$links = array_merge( $links, $this->get_term_link_list( $search_term ) );
-		$links = array_merge( $links, $this->get_author_link_list( $search_term ) );
-
-		wp_send_json( array( 'filter_term' => $search_term, 'links' => $links ), 200 );
-	}
+//	public function get_internal_links() {
+//
+//		$search_term = $this->param( 'filter_term' );
+//
+//		$links = array();
+//		$links = array_merge( $links, $this->get_post_link_list( $search_term ) );
+//		$links = array_merge( $links, $this->get_term_link_list( $search_term ) );
+//		$links = array_merge( $links, $this->get_author_link_list( $search_term ) );
+//
+//		wp_send_json( array( 'filter_term' => $search_term, 'links' => $links ), 200 );
+//	}
 
 	public function get_sidebars() {
 		global $wp_registered_sidebars;
@@ -587,6 +585,7 @@ class Brizy_Editor_API {
 
 	/**
 	 * @return array
+	 * @throws Brizy_Editor_Exceptions_NotFound
 	 */
 	public function create_post_globals() {
 		$wp_post = $this->post->get_wp_post();
@@ -606,112 +605,112 @@ class Brizy_Editor_API {
 		return $globals;
 	}
 
-	/**
-	 * Return an array of terms
-	 *
-	 * Ex: ['label'=>'Term name',
-	 *      'url'=>'term url',
-	 *      'taxonomy'=>'taxonomy name']
-	 *
-	 *
-	 * @param $search_term
-	 *
-	 * @return array
-	 */
-	private function get_term_link_list( $search_term ) {
-
-		$links = array();
-
-		$args = array();
-
-		if ( $search_term ) {
-			$args['name__like'] = $search_term;
-		}
-
-		$terms = get_terms( $args );
-
-		foreach ( $terms as $term ) {
-			$links[] = (object) array(
-				'label'    => $term->name,
-				'url'      => get_term_link( $term ),
-				'taxonomy' => $term->taxonomy
-			);
-		}
-
-		return $links;
-	}
-
-	private function get_author_link_list( $search_term ) {
-		$authors = get_users( array( 'name_like' => $search_term ) );
-		$links   = array();
-		foreach ( $authors as $user ) {
-			$user_nicename = $user->user_nicename;
-			if ( stripos( $user_nicename, $search_term ) !== false ) {
-				$links[] = (object) array(
-					'label'  => $user_nicename,
-					'url'    => get_author_posts_url( $user->ID ),
-					'author' => true
-				);
-			}
-		}
-
-		return $links;
-	}
-
-	/**
-	 * @param $search_term
-	 *
-	 * @return array
-	 */
-	private function get_post_link_list( $search_term ) {
-
-		add_filter( 'posts_where', array( $this, 'brizy_post_title_filter' ), 10, 2 );
-
-		$post_query = array(
-			'post_type'      => Brizy_Editor::get()->supported_post_types(),
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'orderby'        => 'post_title',
-			'order'          => 'ASC'
-		);
-
-		if ( $search_term ) {
-			$post_query['post_title_term'] = $search_term;
-		}
-
-		$posts = new WP_Query( $post_query );
-
-		$links = array();
-
-		foreach ( $posts->posts as $post ) {
-			$permalink = null;
-			switch ( $post->post_type ) {
-				case 'revision':
-				case 'nav_menu_item':
-					continue 2;
-				case 'page':
-					$permalink = get_page_link( $post->ID );
-					break;
-				case 'post':
-					$permalink = get_permalink( $post->ID );
-					break;
-				case 'attachment':
-					$permalink = get_attachment_link( $post->ID );
-					break;
-				default:
-					$permalink = get_post_permalink( $post->ID );
-					break;
-			}
-
-			$label = get_the_title( $post );
-
-			$links[] = (object) array( 'label' => $label, 'url' => $permalink, 'post_type' => $post->post_type );
-		}
-
-		remove_filter( 'posts_where', 'brizy_post_title_filter', 10 );
-
-		return $links;
-	}
+//	/**
+//	 * Return an array of terms
+//	 *
+//	 * Ex: ['label'=>'Term name',
+//	 *      'url'=>'term url',
+//	 *      'taxonomy'=>'taxonomy name']
+//	 *
+//	 *
+//	 * @param $search_term
+//	 *
+//	 * @return array
+//	 */
+//	private function get_term_link_list( $search_term ) {
+//
+//		$links = array();
+//
+//		$args = array();
+//
+//		if ( $search_term ) {
+//			$args['name__like'] = $search_term;
+//		}
+//
+//		$terms = get_terms( $args );
+//
+//		foreach ( $terms as $term ) {
+//			$links[] = (object) array(
+//				'label'    => $term->name,
+//				'url'      => get_term_link( $term ),
+//				'taxonomy' => $term->taxonomy
+//			);
+//		}
+//
+//		return $links;
+//	}
+//
+//	private function get_author_link_list( $search_term ) {
+//		$authors = get_users( array( 'name_like' => $search_term ) );
+//		$links   = array();
+//		foreach ( $authors as $user ) {
+//			$user_nicename = $user->user_nicename;
+//			if ( stripos( $user_nicename, $search_term ) !== false ) {
+//				$links[] = (object) array(
+//					'label'  => $user_nicename,
+//					'url'    => get_author_posts_url( $user->ID ),
+//					'author' => true
+//				);
+//			}
+//		}
+//
+//		return $links;
+//	}
+//
+//	/**
+//	 * @param $search_term
+//	 *
+//	 * @return array
+//	 */
+//	private function get_post_link_list( $search_term ) {
+//
+//		add_filter( 'posts_where', array( $this, 'brizy_post_title_filter' ), 10, 2 );
+//
+//		$post_query = array(
+//			'post_type'      => Brizy_Editor::get()->supported_post_types(),
+//			'posts_per_page' => - 1,
+//			'post_status'    => 'publish',
+//			'orderby'        => 'post_title',
+//			'order'          => 'ASC'
+//		);
+//
+//		if ( $search_term ) {
+//			$post_query['post_title_term'] = $search_term;
+//		}
+//
+//		$posts = new WP_Query( $post_query );
+//
+//		$links = array();
+//
+//		foreach ( $posts->posts as $post ) {
+//			$permalink = null;
+//			switch ( $post->post_type ) {
+//				case 'revision':
+//				case 'nav_menu_item':
+//					continue 2;
+//				case 'page':
+//					$permalink = get_page_link( $post->ID );
+//					break;
+//				case 'post':
+//					$permalink = get_permalink( $post->ID );
+//					break;
+//				case 'attachment':
+//					$permalink = get_attachment_link( $post->ID );
+//					break;
+//				default:
+//					$permalink = get_post_permalink( $post->ID );
+//					break;
+//			}
+//
+//			$label = get_the_title( $post );
+//
+//			$links[] = (object) array( 'label' => $label, 'url' => $permalink, 'post_type' => $post->post_type );
+//		}
+//
+//		remove_filter( 'posts_where', 'brizy_post_title_filter', 10 );
+//
+//		return $links;
+//	}
 
 	public function get_post_list( $searchTerm, $postType, $excludePostType = array() ) {
 
@@ -790,18 +789,18 @@ class Brizy_Editor_API {
 		}
 	}
 
-	public function get_taxonomies() {
-
-		try {
-			$terms = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'objects' );
-
-			wp_send_json( array_values( array_filter( $terms, function ( $term ) {
-				return $term;
-			} ) ) );
-		} catch ( Exception $e ) {
-			wp_send_json_error( array(), 500 );
-		}
-	}
+//	public function get_taxonomies() {
+//
+//		try {
+//			$terms = get_taxonomies( array( 'public' => true, 'show_ui' => true ), 'objects' );
+//
+//			wp_send_json( array_values( array_filter( $terms, function ( $term ) {
+//				return $term;
+//			} ) ) );
+//		} catch ( Exception $e ) {
+//			wp_send_json_error( array(), 500 );
+//		}
+//	}
 
 
 	public function download_media() {
