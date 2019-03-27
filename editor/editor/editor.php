@@ -128,22 +128,22 @@ class Brizy_Editor_Editor_Editor {
 				'id' => $this->project->getId()
 			),
 			'urls'            => array(
-				'site'                => home_url(),
-				'api'                 => home_url( '/wp-json/v1' ),
-				'assets'              => $this->urlBuilder->editor_build_url(),
-				'image'               => $this->urlBuilder->external_media_url() . "",
-				'blockThumbnails'     => $this->urlBuilder->external_asset_url( 'template/img-block-thumbs' ) . "",
-				'templateIcons'       => $this->urlBuilder->proxy_url( 'template/icons' ),
-				'templateFonts'       => 'https://app.brizy.io/fonts/public?path=' . BRIZY_EDITOR_VERSION,
-				'pagePreview'         => $preview_post_link,
+				'site'             => home_url(),
+				'api'              => home_url( '/wp-json/v1' ),
+				'assets'           => $this->urlBuilder->editor_build_url(),
+				'image'            => $this->urlBuilder->external_media_url() . "",
+				'blockThumbnails'  => $this->urlBuilder->external_asset_url( 'template/img-block-thumbs' ) . "",
+				'templateIcons'    => $this->urlBuilder->proxy_url( 'template/icons' ),
+				'templateFonts'    => 'https://app.brizy.io/fonts/public?path=' . BRIZY_EDITOR_VERSION,
+				'pagePreview'      => $preview_post_link,
 
 				// wp specific
-				'changeTemplate'      => $change_template_url,
-				'upgradeToPro'        => apply_filters( 'brizy_upgrade_to_pro_url', Brizy_Config::UPGRADE_TO_PRO_URL ),
-				'supportUrl'          => apply_filters( 'brizy_support_url', Brizy_Config::SUPPORT_URL ),
-				'pluginSettings'      => admin_url( 'admin.php?page=' . Brizy_Admin_Settings::menu_slug() ),
-				'backToWordPress'     => get_edit_post_link( $wp_post_id, null ),
-				'dashboardNavMenu'    => admin_url( 'nav-menus.php' ),
+				'changeTemplate'   => $change_template_url,
+				'upgradeToPro'     => apply_filters( 'brizy_upgrade_to_pro_url', Brizy_Config::UPGRADE_TO_PRO_URL ),
+				'supportUrl'       => apply_filters( 'brizy_support_url', Brizy_Config::SUPPORT_URL ),
+				'pluginSettings'   => admin_url( 'admin.php?page=' . Brizy_Admin_Settings::menu_slug() ),
+				'backToWordPress'  => get_edit_post_link( $wp_post_id, null ),
+				'dashboardNavMenu' => admin_url( 'nav-menus.php' ),
 			),
 			'form'            => array(
 				'submitUrl' => add_query_arg( 'action', 'brizy_submit_form', set_url_scheme( admin_url( 'admin-ajax.php' ) ) )
@@ -158,14 +158,14 @@ class Brizy_Editor_Editor_Editor {
 				'pageAttachments' => array( 'images' => $this->get_page_attachments() ),
 				'templates'       => $templates,
 				'api'             => array(
-					'hash'                       => wp_create_nonce( Brizy_Editor_API::nonce ),
-					'url'                        => set_url_scheme( admin_url( 'admin-ajax.php' ) ),
-					
-					'getPage'                    => Brizy_Editor_API::AJAX_GET,
-					'updatePage'                 => Brizy_Editor_API::AJAX_UPDATE,
+					'hash' => wp_create_nonce( Brizy_Editor_API::nonce ),
+					'url'  => set_url_scheme( admin_url( 'admin-ajax.php' ) ),
 
-					'getGlobals'                 => Brizy_Editor_API::AJAX_GET_GLOBALS,
-					'setGlobals'                 => Brizy_Editor_API::AJAX_SET_GLOBALS,
+					'getPage'    => Brizy_Editor_API::AJAX_GET,
+					'updatePage' => Brizy_Editor_API::AJAX_UPDATE,
+
+					'getGlobals' => Brizy_Editor_API::AJAX_GET_GLOBALS,
+					'setGlobals' => Brizy_Editor_API::AJAX_SET_GLOBALS,
 
 					'getGlobalBlockList'   => Brizy_Admin_Blocks_Api::CREATE_GET_GLOBAL_BLOCKS_ACTION,
 					'createGlobalBlock'    => Brizy_Admin_Blocks_Api::CREATE_GLOBAL_BLOCK_ACTION,
@@ -183,16 +183,17 @@ class Brizy_Editor_Editor_Editor {
 					'updateSavedBlock'  => Brizy_Admin_Blocks_Api::UPDATE_SAVED_BLOCK_ACTION,
 					'deleteSavedBlock'  => Brizy_Admin_Blocks_Api::DELETE_SAVED_BLOCK_ACTION,
 
-					'media'                      => Brizy_Editor_API::AJAX_MEDIA,
-					'downloadMedia'              => Brizy_Editor_API::AJAX_DOWNLOAD_MEDIA,
-					'getMediaUid'                => Brizy_Editor_API::AJAX_MEDIA_METAKEY,
+					'media'         => Brizy_Editor_API::AJAX_MEDIA,
+					'downloadMedia' => Brizy_Editor_API::AJAX_DOWNLOAD_MEDIA,
+					'getMediaUid'   => Brizy_Editor_API::AJAX_MEDIA_METAKEY,
 
-					'saveBlockScreenshot'        => Brizy_Editor_BlockScreenshotApi::AJAX_SAVE_BLOCK_SCREENSHOT,
 
-					'getSidebars'                => Brizy_Editor_API::AJAX_SIDEBARS,
-					'shortcodeContent'           => Brizy_Editor_API::AJAX_SHORTCODE_CONTENT,
-					'getMenus'                   => Brizy_Editor_API::AJAX_GET_MENU_LIST,
-					'getTerms'                   => Brizy_Editor_API::AJAX_GET_TERMS,
+					'saveBlockScreenshot' => Brizy_Editor_BlockScreenshotApi::AJAX_SAVE_BLOCK_SCREENSHOT,
+
+					'getSidebars'      => Brizy_Editor_API::AJAX_SIDEBARS,
+					'shortcodeContent' => Brizy_Editor_API::AJAX_SHORTCODE_CONTENT,
+					'getMenus'         => Brizy_Editor_API::AJAX_GET_MENU_LIST,
+					'getTerms'         => Brizy_Editor_API::AJAX_GET_TERMS,
 
 					//'ping'                       => Brizy_Editor_API::AJAX_PING, // ???
 					//'buildContent'               => Brizy_Editor_API::AJAX_BUILD, // ???
@@ -204,20 +205,20 @@ class Brizy_Editor_Editor_Editor {
 					//'savePage'                   => Brizy_Editor_API::AJAX_SAVE_TRIGGER, // ???
 					//'getPostObjects'             => Brizy_Editor_API::AJAX_GET_POST_OBJECTS, // ???
 					//'getTaxonomies'              => Brizy_Editor_API::AJAX_GET_TAXONOMIES, // ??
-					
+
 					'setFeaturedImage'           => Brizy_Editor_API::AJAX_SET_FEATURED_IMAGE,
 					'setFeaturedImageFocalPoint' => Brizy_Editor_API::AJAX_SET_FEATURED_IMAGE_FOCAL_POINT,
 					'removeFeaturedImage'        => Brizy_Editor_API::AJAX_REMOVE_FEATURED_IMAGE,
 
 					//'getDefaultForm'             => Brizy_Editor_Forms_Api::AJAX_GET_DEFAULT_FORM, // ???
-					'getForm'           => Brizy_Editor_Forms_Api::AJAX_GET_FORM,
-					'createForm'        => Brizy_Editor_Forms_Api::AJAX_CREATE_FORM,
-					'deleteForm'        => Brizy_Editor_Forms_Api::AJAX_DELETE_FORM,
+					'getForm'                    => Brizy_Editor_Forms_Api::AJAX_GET_FORM,
+					'createForm'                 => Brizy_Editor_Forms_Api::AJAX_CREATE_FORM,
+					'deleteForm'                 => Brizy_Editor_Forms_Api::AJAX_DELETE_FORM,
 					//'submitForm'        => Brizy_Editor_Forms_Api::AJAX_SUBMIT_FORM, // ???
-					'getIntegration'    => Brizy_Editor_Forms_Api::AJAX_GET_INTEGRATION,
-					'createIntegration' => Brizy_Editor_Forms_Api::AJAX_CREATE_INTEGRATION,
-					'updateIntegration' => Brizy_Editor_Forms_Api::AJAX_UPDATE_INTEGRATION,
-					'deleteIntegration' => Brizy_Editor_Forms_Api::AJAX_DELETE_INTEGRATION,
+					'getIntegration'             => Brizy_Editor_Forms_Api::AJAX_GET_INTEGRATION,
+					'createIntegration'          => Brizy_Editor_Forms_Api::AJAX_CREATE_INTEGRATION,
+					'updateIntegration'          => Brizy_Editor_Forms_Api::AJAX_UPDATE_INTEGRATION,
+					'deleteIntegration'          => Brizy_Editor_Forms_Api::AJAX_DELETE_INTEGRATION,
 
 					//'updateMenuData'             => Brizy_Editor_API::AJAX_UPDATE_MENU_DATA, // ???
 					//'updateMenuItemData'         => Brizy_Editor_API::AJAX_UPDATE_MENU_ITEM_DATA, // ???
