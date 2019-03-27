@@ -327,10 +327,10 @@ class Brizy_Editor_API {
 			$project->setGlobalsAsJson( $data );
 
 			if ( (int) $this->param( 'is_autosave' ) ) {
-				$this->project->auto_save_post();
+				$project->auto_save_post();
 			} else {
-				$this->project->save();
-				$this->project->save_wp_post();
+				$project->save();
+				$project->save_wp_post();
 
 				Brizy_Editor_Post::clear_compiled_cache();
 
