@@ -592,7 +592,7 @@ class Brizy_Editor_API {
 		$project = Brizy_Editor_Project::get();
 		$globals = array(
 			'id'        => $project->getId(),
-			'gb'        => $project->getDecodedGlobals(),
+			'gb'        => $project->getGlobalsAsJson(),
 			'name'      => $wp_post->post_name,
 			'createdAt' => $wp_post->post_date,
 			'updatedAt' => $wp_post->post_date,
