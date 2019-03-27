@@ -26,6 +26,10 @@ class Brizy_Admin_Migrations_GlobalBlocksToCustomPostMigration implements Brizy_
 		$project = Brizy_Editor_Project::get();
 		$globals = $project->getDecodedGlobals();
 
+		if ( ! $globals || ! isset( $globals->project ) ) {
+			return;
+		}
+
 		if ( $globals->project->globalBlocks ) {
 			foreach ( get_object_vars( $globals->project->globalBlocks ) as $uid => $data ) {
 
@@ -63,27 +67,11 @@ class Brizy_Admin_Migrations_GlobalBlocksToCustomPostMigration implements Brizy_
 			}
 		}
 
+		update_post_meta( $project->getWpPost()->ID, 'brizy-bk-' . get_class( $this ) . '-' . $this->getVersion(), $globals );
+
 		$globals->project->globalBlocks = (object) array();
 		$globals->project->savedBlocks  = (object) array();
-
 		$project->setGlobals( $globals );
-
-		update_post_meta( $project->getWpPost()->ID, 'brizy-bk-' . get_class( $this ) . '-' . $this->getVersion(), $globals );
-	}
-
-	private function getPostIdByUid( $uid ) {
-		global $wpdb;
-		$CP_GLOBAL = 'brizy-global-block';
-		$CP_SAVED  = 'brizy-saved-block';
-
-		$prepare = $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} p 
-								JOIN {$wpdb->postmeta} pm  ON 
-								pm.post_id=p.ID and 
-								meta_key='brizy_post_uid' and 
-								meta_value='%s'   
-								WHERE p.post_type IN ('{$CP_GLOBAL}','{$CP_SAVED}')
-								LIMIT 1", array( $uid ) );
-
-		return $wpdb->get_var( $prepare );
+		$project->save();
 	}
 }
