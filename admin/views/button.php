@@ -27,7 +27,7 @@ $className = $is_using_brizy ? 'brizy-button--default' : 'brizy-button--primary'
                      src="<?php echo __bt( 'brizy-logo', plugins_url( '../static/img/brizy.png', __FILE__ ) ) ?>"
                      srcset="<?php echo __bt( 'brizy-logo', plugins_url( '../static/img/brizy.png', __FILE__ ) ) ?> 1x, <?php echo __bt( 'brizy-logo-2x', plugins_url( '../static/img/arrow.png', __FILE__ ) ) ?> 2x"
                 />
-				<?php echo __bt( $label, 'brizy' ); ?>
+				<?php echo __bt( 'brizy', 'Brizy' ); ?>
 				<?php
 			}
 			?>
@@ -49,7 +49,7 @@ if ( $is_using_brizy ) {
                  src="<?php echo __bt( 'brizy-logo', plugins_url( '../static/img/brizy.png', __FILE__ )) ?>"
                  srcset="<?php echo __bt( 'brizy-logo', plugins_url( '../static/img/brizy.png', __FILE__ ) ) ?> 1x, <?php echo __bt( 'brizy-logo-2x', plugins_url( '../static/img/arrow.png', __FILE__ ) ) ?> 2x"
             />
-			<?php echo __bt( $label, 'brizy' ); ?>
+			<?php echo __bt( 'brizy', 'Brizy' ); ?>
         </a>
     </div>
 	<?php
