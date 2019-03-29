@@ -52,8 +52,8 @@ class Brizy_Admin_Blocks_Main {
 	 */
 	public function populateGlobalData( $globalData ) {
 
-		if ( ! is_object( $globalData->project ) ) {
-			$globalData->project = (object) array( 'globalBlocks' => array(), 'savedBlocks' => array() );
+		if ( ! is_object( $globalData ) ) {
+			$globalData = (object) array( 'globalBlocks' => array(), 'savedBlocks' => array() );
 		}
 
 		$blocks = get_posts( array(
@@ -65,9 +65,9 @@ class Brizy_Admin_Blocks_Main {
 		) );
 
 		foreach ( $blocks as $block ) {
-			$brizy_editor_block                      = Brizy_Editor_Block::get( $block );
-			$uid                                     = $brizy_editor_block->get_uid();
-			$globalData->project->globalBlocks[$uid] = json_decode( $brizy_editor_block->get_editor_data() );
+			$brizy_editor_block             = Brizy_Editor_Block::get( $block );
+			$uid                            = $brizy_editor_block->get_uid();
+			$globalData->globalBlocks[$uid] = json_decode( $brizy_editor_block->get_editor_data() );
 		}
 
 		$blocks = get_posts( array(
@@ -80,7 +80,7 @@ class Brizy_Admin_Blocks_Main {
 
 		foreach ( $blocks as $block ) {
 			$brizy_editor_block                 = Brizy_Editor_Block::get( $block );
-			$globalData->project->savedBlocks[] = json_decode( $brizy_editor_block->get_editor_data() );
+			$globalData->savedBlocks[] = json_decode( $brizy_editor_block->get_editor_data() );
 		}
 
 		return $globalData;

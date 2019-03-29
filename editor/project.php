@@ -179,7 +179,7 @@ class Brizy_Editor_Project implements Serializable {
 		$project_data = array(
 			'id'                  => md5( uniqid( 'Local project', true ) ),
 			'title'               => 'Brizy Project',
-			'globals'             => base64_encode( '{"project":{},"language":{}}' ),
+			'globals'             => base64_encode( '{}' ),
 			'name'                => uniqid( 'Local project', true ),
 			'user'                => null,
 			'template'            => array( 'slug' => 'brizy' ),

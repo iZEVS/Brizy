@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alex
- * Date: 9/13/18
- * Time: 4:47 PM
- */
 
 class Brizy_Admin_Migrations_GlobalBlocksToCustomPostMigration implements Brizy_Admin_Migrations_MigrationInterface {
 
@@ -69,8 +63,9 @@ class Brizy_Admin_Migrations_GlobalBlocksToCustomPostMigration implements Brizy_
 
 		update_post_meta( $project->getWpPost()->ID, 'brizy-bk-' . get_class( $this ) . '-' . $this->getVersion(), $globals );
 
-		$globals->project->globalBlocks = (object) array();
-		$globals->project->savedBlocks  = (object) array();
+		unset($globals->project->globalBlocks);
+		unset($globals->project->savedBlocks);
+		$globals = $globals->project;
 		$project->setGlobals( $globals );
 		$project->save();
 	}
