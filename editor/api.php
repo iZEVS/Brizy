@@ -52,7 +52,7 @@ class Brizy_Editor_API {
 	 */
 	public function __construct( $post ) {
 
-		$this->post    = $post;
+		$this->post = $post;
 
 		$this->initialize();
 	}
@@ -334,7 +334,7 @@ class Brizy_Editor_API {
 
 				Brizy_Editor_Post::clear_compiled_cache();
 
-				do_action('brizy_global_data_updated');
+				do_action( 'brizy_global_data_updated' );
 			}
 
 
@@ -588,18 +588,10 @@ class Brizy_Editor_API {
 	 * @throws Brizy_Editor_Exceptions_NotFound
 	 */
 	public function create_post_globals() {
-		$wp_post = $this->post->get_wp_post();
 		$project = Brizy_Editor_Project::get();
 		$globals = array(
-			'id'        => $project->getId(),
-			'gb'        => $project->getGlobalsAsJson(),
-			'name'      => $wp_post->post_name,
-			'createdAt' => $wp_post->post_date,
-			'updatedAt' => $wp_post->post_date,
-			'user'      => array(
-				'email' => null,
-				'id'    => null,
-			),
+			'id' => $project->getId(),
+			'gb' => $project->getGlobalsAsJson(),
 		);
 
 		return $globals;
