@@ -9,7 +9,7 @@
 
 class Brizy_Editor_Block extends Brizy_Editor_Post {
 
-	protected $position = 0;
+	protected $position;
 
 	/**
 	 * @param $apost
@@ -87,11 +87,14 @@ class Brizy_Editor_Block extends Brizy_Editor_Post {
 	}
 
 	public function convertToOptionValue() {
-		$data             = parent::convertToOptionValue();
-		$data['position'] = $this->getPosition();
+		$data = parent::convertToOptionValue();
 
-		$ruleManager = new Brizy_Admin_Rules_Manager();
 
+		if ( $this->getPosition() instanceof Brizy_Editor_BlockPosition ) {
+			$data['position'] = $this->getPosition();
+		}
+
+		$ruleManager   = new Brizy_Admin_Rules_Manager();
 		$data['rules'] = $ruleManager->getRules( $this->get_id() );
 
 		return $data;

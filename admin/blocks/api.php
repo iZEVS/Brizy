@@ -108,10 +108,11 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 
 		try {
 			$editorData = stripslashes( $this->param( 'data' ) );
-			$block      = $this->createBlock( $this->param( 'uid' ), 'publish', Brizy_Admin_Blocks_Main::CP_GLOBAL );
+
+			$block = $this->createBlock( $this->param( 'uid' ), 'publish', Brizy_Admin_Blocks_Main::CP_GLOBAL );
 			$block->set_editor_data( $editorData );
 			$block->set_needs_compile( true );
-			$block->setPosition( (int)$this->param( 'position' ) );
+			$block->setPosition( (int) $this->param( 'position' ) );
 
 			// rules
 			$rulesData = stripslashes( $this->param( 'rules' ) );
@@ -279,10 +280,15 @@ class Brizy_Admin_Blocks_Api extends Brizy_Admin_AbstractApi {
 		try {
 
 			foreach ( get_object_vars( $positionObject ) as $uid => $position ) {
+
+				$positionObj = new Brizy_Editor_BlockPosition( $position->align, $position->index );
+
 				$block = $this->getBlock( $uid, Brizy_Admin_Blocks_Main::CP_GLOBAL );
-				$block->setPosition( (int) $position );
+				$block->setPosition( $positionObj );
 				$block->save();
 			}
+
+			do_action( 'brizy_global_data_updated' );
 
 			$wpdb->query( 'COMMIT' );
 

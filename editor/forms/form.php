@@ -25,7 +25,7 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 			$get_object_vars['integrations'][] = $integration->convertToOptionValue();
 		}
 
-		return $get_object_vars;
+		return serialize( $get_object_vars );
 	}
 
 	public function jsonSerialize() {
@@ -39,7 +39,7 @@ class Brizy_Editor_Forms_Form extends Brizy_Admin_Serializable {
 
 	public function convertToOptionValue() {
 		$get_object_vars = array(
-			'id'           => $this->id,
+			'id' => $this->id,
 		);
 
 		foreach ( $this->integrations as $integration ) {
